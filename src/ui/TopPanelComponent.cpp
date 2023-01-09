@@ -19,15 +19,16 @@ limitations under the License.
 
 using namespace ddsp;
 
+// Constructor
 TopPanelComponent::TopPanelComponent (DDSPAudioProcessor& p) : audioProcessor (p)
 {
-    modelList.reset (new juce::ComboBox ("new combo box"));
+    modelList.reset (new juce::ComboBox ("new combo box"));         // modelList is a pointer to a combo box.
     addAndMakeVisible (modelList.get());
     modelList->setEditableText (false);
     modelList->setJustificationType (juce::Justification::centredLeft);
     modelList->setTextWhenNothingSelected (juce::String());
     modelList->setTextWhenNoChoicesAvailable (TRANS ("(no choices)"));
-    modelList->onChange = [this] { changeDDSPModel(); };
+    modelList->onChange = [this] { changeDDSPModel(); };            // called when the selected ID is changed
 
     modelList->setLookAndFeel (&lookAndFeel);
     modelList->setColour (juce::ComboBox::backgroundColourId, juce::Colours::white);
@@ -35,7 +36,12 @@ TopPanelComponent::TopPanelComponent (DDSPAudioProcessor& p) : audioProcessor (p
     modelList->setColour (juce::ComboBox::textColourId, juce::Colour (DDSPColourPalette::kLabelTextColour));
     modelList->setColour (juce::ComboBox::arrowColourId, juce::Colour (DDSPColourPalette::kMagenta));
 
-    fillComboBox();
+    fillComboBox();  // adds items to the combo box
+    
+    // modelList is a pointer to a combo box, setSelectedId sets the current selection
+    // getCurrentModel returns the current model index
+    // +1 to get the model ID (indexing starts at 0)
+    // set to not send a notification to any listeners
     modelList->setSelectedId (audioProcessor.getCurrentModel() + 1, juce::dontSendNotification);
 
     lookAndFeel.setColour (juce::PopupMenu::backgroundColourId, juce::Colours::white);
@@ -228,8 +234,8 @@ void TopPanelComponent::resized()
 
 void TopPanelComponent::changeDDSPModel()
 {
-    audioProcessor.loadModel (modelList->getSelectedId() - 1);
-    sendChangeMessage();
+    audioProcessor.loadModel (modelList->getSelectedId() - 1);      // modelList is a combo box, argument is the model index
+    sendChangeMessage();        // TopPanelComponent is a change broadcaster
 }
 
 void TopPanelComponent::openFileBrowser() { audioProcessor.getModelLibrary().getPathToUserModels().startAsProcess(); }
@@ -256,8 +262,12 @@ void TopPanelComponent::fillComboBox()
     modelList->clear (juce::dontSendNotification);
     // Must start from 1.
     int comboBoxId = 1;
+    // For each model in the list
+    // audioProcessor.getModelLibrary().getModelList() returns std::vector<ModelInfo> models
+    // This is a vector of ModelInfo objects (containing info on name, timestamp and memory).
     for (auto& model : audioProcessor.getModelLibrary().getModelList())
     {
+        // add new item to combo box
         modelList->addItem (model.name, comboBoxId++);
     }
 }

@@ -16,31 +16,38 @@ limitations under the License.
 
 #include "BottomPanelComponent.h"
 
+// constructor - initialise the audio processor in the member initialiser list
+// 
 BottomPanelComponent::BottomPanelComponent (DDSPAudioProcessor& p) : audioProcessor (p)
 {
-    std::vector<juce::String> groupNames;
-    const auto paramInfos = getSliderParamsInfo();
-    for (const auto& [groupName, infos] : paramInfos)
+    std::vector<juce::String> groupNames;                   // group names: Controls, Effect, Envelope
+    const auto paramInfos = getSliderParamsInfo();          // from ParamInfo.cpp
+    for (const auto& [groupName, infos] : paramInfos)       // e.g. Controls, Info
     {
-        groupNames.push_back (groupName);
+        groupNames.push_back (groupName);                   // append groupName to the groupNames vector
         sliderGroups[groupName] = std::vector<std::unique_ptr<SliderWithDynamicLabel>>();
-        for (const auto& info : infos)
+        //sliderGroups is a map from groupName to a vector of pointers to sliders with dynamic labels
+        // create an empty vector to fill
+        
+        for (const auto& info : infos)  // for each sub parameter e.g. Pitch Shift, Harmonics etc
         {
-            auto slider = std::make_unique<SliderWithDynamicLabel> (info);
-            addChildComponent (slider.get());
+            auto slider = std::make_unique<SliderWithDynamicLabel> (info);  // pointer to the slider for info
+            addChildComponent (slider.get());                               // add the slider to the UI
 
+            // create slider attachment - connect slider to value in the AudioProcessorValueTreeState
             auto sliderAttach =
                 std::make_unique<SliderAttach> (audioProcessor.getValueTree(), info.paramID, slider->getSlider());
 
-            sliderGroups[groupName].push_back (std::move (slider));
-            sliderAttachments.push_back (std::move (sliderAttach));
+            sliderGroups[groupName].push_back (std::move (slider));     // append the slider pointer into sliderGroups
+            sliderAttachments.push_back (std::move (sliderAttach));     // append the slider attachment pointer into                                                                            sliderAttachments
         }
     }
-    buttonGroup.reset (new RadioButtonGroupGomponent (groupNames));
+    buttonGroup.reset (new RadioButtonGroupGomponent (groupNames));     // reset the radio button group
     addAndMakeVisible (buttonGroup.get());
     buttonGroup->addListener (this);
+                                            // addListener defined in RadioButtonGroupComponent.h
     jassert (! groupNames.empty());
-    showSliderGroup (groupNames[0]);
+    showSliderGroup (groupNames[0]);        // show slider group 'Controls' as the default.
 }
 
 BottomPanelComponent::~BottomPanelComponent()

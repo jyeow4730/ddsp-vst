@@ -30,7 +30,7 @@ template <typename Input, typename Output>
 class ModelBase
 {
 public:
-    ModelBase (const char* modelDataPtr, size_t dataSize, int numThreads)
+    ModelBase (const char* modelDataPtr, size_t dataSize, int numThreads)   // constructor
     {
         modelBuffer = tflite::FlatBufferModel::VerifyAndBuildFromBuffer (modelDataPtr, dataSize);
         jassert (modelBuffer != nullptr);

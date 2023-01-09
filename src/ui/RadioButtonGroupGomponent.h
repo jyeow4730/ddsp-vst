@@ -42,7 +42,7 @@ private:
     void updateToggleState (juce::Button* button, const juce::String& name);
 
     DDSPLookAndFeel lookAndFeel;
-    juce::ListenerList<Listener> listeners;
+    juce::ListenerList<Listener> listeners;             // list of listeners
     std::vector<std::unique_ptr<juce::TextButton>> buttons;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadioButtonGroupGomponent)
 };

@@ -20,6 +20,7 @@ limitations under the License.
 namespace ddsp
 {
 
+// constructor
 InferencePipeline::InferencePipeline (juce::AudioProcessorValueTreeState& t)
     : tree (t),
       inputRingBuffer (/*size=*/61440),
@@ -193,7 +194,7 @@ void InferencePipeline::render()
 
 void InferencePipeline::hiResTimerCallback() { render(); }
 
-void InferencePipeline::loadModel (const ModelInfo& mi)
+void InferencePipeline::loadModel (const ModelInfo& mi)     // loading the new model into the ddsp
 {
     nextPredictControlsModel = std::make_unique<PredictControlsModel> (mi);
     swappingModel = true;

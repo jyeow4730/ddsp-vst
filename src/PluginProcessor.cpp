@@ -14,17 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "PluginProcessor.h"
+#include "PluginProcessor.h"        // header file associated with this file
 #include "PluginEditor.h"
 #include "ui/ParamInfo.h"
 #include "util/InputUtils.h"
 
-using namespace ddsp;
+using namespace ddsp;       // ddsp namespace defined in audio/tflite/InferencePipeline.cpp
 
 //==============================================================================
-DDSPAudioProcessor::DDSPAudioProcessor (bool st)
+DDSPAudioProcessor::DDSPAudioProcessor (bool st)        // constructor definition, class is called DDSPAudioProcessor, input is a                                                         boolean
 #ifndef JucePlugin_PreferredChannelConfigurations
-    : AudioProcessor (BusesProperties()
+    : AudioProcessor (BusesProperties()                 // member initialiser list
 #if ! JucePlugin_IsMidiEffect
 #if ! JucePlugin_IsSynth
                           .withInput ("Input", juce::AudioChannelSet::stereo(), true)
@@ -34,10 +34,11 @@ DDSPAudioProcessor::DDSPAudioProcessor (bool st)
                           ),
 #endif
       singleThreaded (st),
-      tree (*this, nullptr, "PARAMETERS", createParameterLayout()),
+      tree (*this, nullptr, "PARAMETERS", createParameterLayout()),     // tree is an object belonging to the                                                                                       juce::AudioProcessorValueTreeState class
+                                                                        // createParameterLayout() found in ParamInfo.cpp
       ddspPipeline (tree)
 {
-    ddspPipeline.reset();
+    ddspPipeline.reset();       // reset the variable ddspPipeline (object belonging to the class ddsp::InferencePipeline)
 }
 
 DDSPAudioProcessor::~DDSPAudioProcessor() {}
@@ -92,7 +93,7 @@ void DDSPAudioProcessor::changeProgramName (int index, const juce::String& newNa
 void DDSPAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // The pitch detection model needs a full 64ms frame to get an accurate reading.
-    // Therefore the pulgin latency is set to 64ms.
+    // Therefore the plugin latency is set to 64ms.
     setLatencySamples ((kTotalInferenceLatency_ms / 1000.0f) * sampleRate);
 
     reverb.setSampleRate (sampleRate);
@@ -274,10 +275,13 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() { return new DDSPAudioP
 
 // ----------------------------------------- PUBLIC METHODS ----------------------------------------
 
-void DDSPAudioProcessor::loadModel (int modelIdx)
+void DDSPAudioProcessor::loadModel (int modelIdx) // loadModel function for the audio processor
 {
     modelLoaded = false;
+        // Using the load model method for ddsp - defined in InferencePipeline.cpp
+        // Load the model given by the index modelIdx (function getModelIdx defined in ModelLibrary.cpp)
     ddspPipeline.loadModel (modelLibrary.getModelList()[modelIdx]);
+                            // argument is the model info for the model indexed by modelIdx
     currentModel = modelIdx;
     modelLoaded = true;
 }

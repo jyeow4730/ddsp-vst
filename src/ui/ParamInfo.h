@@ -18,7 +18,7 @@ limitations under the License.
 
 #include "JuceHeader.h"
 
-struct ParamInfo
+struct ParamInfo                        // structure containing parameter information
 {
     juce::String paramID;
     juce::String paramName;
@@ -32,6 +32,7 @@ struct ParamInfo
     juce::String unit;
 };
 
+    // Function declarations (function definitions in ParamInfo.cpp)
 std::map<juce::String, std::vector<ParamInfo>> getSliderParamsInfo();
 
 // Creates and adds AudioProcessor params to the value tree state.

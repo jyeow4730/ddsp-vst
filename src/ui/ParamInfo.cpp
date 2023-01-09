@@ -16,17 +16,20 @@ limitations under the License.
 
 #include "ui/ParamInfo.h"
 
+// This code defines which parameters get added to the AudioProcessorValueTreeState.
+
 std::map<juce::String, std::vector<ParamInfo>> getSliderParamsInfo()
 {
+    // map with a string key and ParamInfo (structure) value
     static const std::map<juce::String, std::vector<ParamInfo>> ret = {
         // Model control params.
         { "Controls",
-          { { "PitchShift", "Pitch Shift", -24, 24, 0, 1, true, 1, "st" },
+          { { "PitchShift", "Pitch Shift", -24, 24, 0, 1, true, 1, "st" },              // ParamInfo struct defined in ParamInfo.h
             { "HarmonicGain", "Harmonics", 0.0f, 1.0f, 1.0f, 0.01f, false, 2, "" },
             { "NoiseGain", "Noise", 0.0f, 1.0f, 1.0f, 0.01f, false, 2, "" },
             { "OutputGain", "Output Gain", -60.0f, 0.0f, 0.0f, 0.01f, false, 2, "dB" } } },
 #if JucePlugin_IsSynth
-        // Synth mode params.
+        // Synth mode params. (Only an option for the Synth plugin)
         { "Envelope",
           { { "Attack", "Attack", 0.1f, 3.0f, 0.1f, 0.01f, false, 2, "s" },
             { "Decay", "Decay", 0.1f, 3.0f, 0.0f, 0.01f, false, 2, "s" },
@@ -45,15 +48,20 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
+        // Add input gain and input pitch parameters
     layout.add (std::make_unique<juce::AudioParameterFloat> ("InputGain", "Input Gain", -0.5f, 0.5f, 0.0f));
     layout.add (std::make_unique<juce::AudioParameterFloat> ("InputPitch", "Input Pitch", -0.5f, 0.5f, 0.0f));
 
     // Scene-related params.
-    const auto paramInfos = getSliderParamsInfo();
+    const auto paramInfos = getSliderParamsInfo();          // auto: automatic type, returns the map created in                                                                        getSliderParamsInfo()
+    
+    // Iterate over each key-value pair in paramInfos
     for (const auto& [groupName, infos] : paramInfos)
     {
+        // Iterate over element in the ParamInfo structures
         for (const auto& info : infos)
         {
+            // If the parameter is an integer value, add an AudioParameterInt parameter, if not add an AudioParameterFloat
             if (info.isIntParam)
             {
                 layout.add (std::make_unique<juce::AudioParameterInt> (info.paramID,
@@ -70,5 +78,5 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
         }
     }
 
-    return layout;
+    return layout;  // returns a ParameterLayout type to be used to initialise the AudioProcessorValueTreeState in                                PluginProcessor.cpp
 }

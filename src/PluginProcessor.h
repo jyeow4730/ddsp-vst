@@ -23,7 +23,7 @@ limitations under the License.
 //==============================================================================
 /**
 */
-class DDSPAudioProcessor : public juce::AudioProcessor
+class DDSPAudioProcessor : public juce::AudioProcessor          // DDSPAudioProcessor is a derived class, parent is                                                                               juce::AudioProcessor
 {
 public:
     //==============================================================================
@@ -81,7 +81,7 @@ private:
     int currentModel = 0;
 
     // Param state.
-    juce::AudioProcessorValueTreeState tree;
+    juce::AudioProcessorValueTreeState tree;        // Tree is a ValueTree object used to manage the audio processor's entire                                                     state
 
     ddsp::ModelLibrary modelLibrary;
     ddsp::InferencePipeline ddspPipeline;

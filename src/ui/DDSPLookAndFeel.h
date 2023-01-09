@@ -21,7 +21,7 @@ limitations under the License.
 enum DDSPColourPalette : uint32_t
 {
     kGrey = 0xFFF2F2F2,
-    kMagenta = 0xFF6236FF,
+    kMagenta = 0xFF0000FF,
     kDarkGrey = 0x25000000,
     kDarkerGrey = 0xFFACACAC,
     kLabelTextColour = 0xB3000000,

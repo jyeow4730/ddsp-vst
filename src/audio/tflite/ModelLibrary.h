@@ -30,6 +30,7 @@ struct ModelInfo
     // Memory blob corresponding to the model contents.
     const juce::MemoryBlock data;
 
+    // constructor - initialises name, timestamp and data (and does nothing else)
     ModelInfo (juce::String n, juce::String t, const char* d, size_t s) : name (n), timestamp (t), data (d, s) {}
 };
 

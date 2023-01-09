@@ -19,10 +19,12 @@ limitations under the License.
 namespace ddsp
 {
 
+// constructor
 FeatureExtractionModel::FeatureExtractionModel()
     : ModelBase (BinaryData::extract_features_micro_tflite,
                  BinaryData::extract_features_micro_tfliteSize,
                  kNumFeatureExtractionThreads)
+        // Initialise with ModelBase constructor
 {
 }
 

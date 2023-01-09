@@ -22,21 +22,23 @@ constexpr int radioGroupId = 1001;
 
 //==============================================================================
 RadioButtonGroupGomponent::RadioButtonGroupGomponent (const std::vector<juce::String>& buttonNames)
+// Constructor
+// Controls/Effect/Envelope options
 {
     int buttonIdx = 0;
-    for (const auto& name : buttonNames)
+    for (const auto& name : buttonNames)        // Iterate over each button
     {
-        auto button = std::make_unique<juce::TextButton> (name);
+        auto button = std::make_unique<juce::TextButton> (name);        // Unique pointer to a TextButton
 
-        if (buttonIdx == 0)
+        if (buttonIdx == 0)     // first button
         {
             button->setConnectedEdges (juce::Button::ConnectedOnRight);
         }
-        else if (buttonIdx == buttonNames.size() - 1)
+        else if (buttonIdx == buttonNames.size() - 1)   //last button
         {
             button->setConnectedEdges (juce::Button::ConnectedOnLeft);
         }
-        else
+        else // all other buttons
         {
             button->setConnectedEdges (juce::Button::ConnectedOnRight | juce::Button::ConnectedOnLeft);
         }

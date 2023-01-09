@@ -25,7 +25,7 @@ limitations under the License.
 namespace ddsp
 {
 
-ModelLibrary::ModelLibrary()
+ModelLibrary::ModelLibrary()    // constructor
 {
     loadEmbeddedModels();
     setPathToUserModels();

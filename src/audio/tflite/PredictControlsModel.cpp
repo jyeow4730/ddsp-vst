@@ -20,10 +20,12 @@ limitations under the License.
 namespace ddsp
 {
 
+// constructor 
 PredictControlsModel::PredictControlsModel (const ModelInfo& mi)
     : ModelBase (mi.data.begin(), mi.data.getSize(), kNumPredictControlsThreads)
+            //  Initialise with ModelBase constructor
 {
-    reset();
+    reset();    // defined below.
 }
 
 void PredictControlsModel::call (const AudioFeatures& input, SynthesisControls& output)
