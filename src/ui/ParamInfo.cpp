@@ -51,6 +51,24 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
         // Add input gain and input pitch parameters
     layout.add (std::make_unique<juce::AudioParameterFloat> ("InputGain", "Input Gain", -0.5f, 0.5f, 0.0f));
     layout.add (std::make_unique<juce::AudioParameterFloat> ("InputPitch", "Input Pitch", -0.5f, 0.5f, 0.0f));
+    
+    // Add instrument choice parameter
+
+    juce::StringArray instrumentList;
+    instrumentList.add ("Flute");
+    instrumentList.add ("Violin");
+    instrumentList.add ("Trumpet");
+    instrumentList.add ("Saxophone");
+    instrumentList.add ("Bassoon");
+    instrumentList.add ("Clarinet");
+    instrumentList.add ("Melodica");
+    instrumentList.add ("Sitar");
+    instrumentList.add ("Trombone");
+    instrumentList.add ("Tuba");
+    instrumentList.add ("Vowels");
+    
+    layout.add (std::make_unique<juce::AudioParameterChoice> ("InstrumentChoice", "Instrument Choice", instrumentList, 0));
+    
 
     // Scene-related params.
     const auto paramInfos = getSliderParamsInfo();          // auto: automatic type, returns the map created in                                                                        getSliderParamsInfo()

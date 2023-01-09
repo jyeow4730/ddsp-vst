@@ -22,6 +22,8 @@ limitations under the License.
 #include "ui/DDSPLookAndFeel.h"
 #include "ui/ModelRangeVisualizerComponent.h"
 
+using ComboBoxAttach = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
+
 class TopPanelComponent : public juce::Component, public juce::ChangeBroadcaster
 {
 public:
@@ -51,6 +53,9 @@ private:
     std::unique_ptr<juce::TextButton> refreshButton;
     std::unique_ptr<juce::TextButton> urlButton;
     std::unique_ptr<juce::TextButton> infoButton;
+    
+    // Combo box attachment
+    std::unique_ptr<ComboBoxAttach> comboBoxAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TopPanelComponent)
 };

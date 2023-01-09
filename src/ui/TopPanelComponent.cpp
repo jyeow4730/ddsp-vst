@@ -35,6 +35,9 @@ TopPanelComponent::TopPanelComponent (DDSPAudioProcessor& p) : audioProcessor (p
     modelList->setColour (juce::ComboBox::outlineColourId, juce::Colour (DDSPColourPalette::kDarkGrey));
     modelList->setColour (juce::ComboBox::textColourId, juce::Colour (DDSPColourPalette::kLabelTextColour));
     modelList->setColour (juce::ComboBox::arrowColourId, juce::Colour (DDSPColourPalette::kMagenta));
+    
+    // create combo box attachment
+    comboBoxAttachment = std::make_unique<ComboBoxAttach> (audioProcessor.getValueTree(), "InstrumentChoice", *modelList);
 
     fillComboBox();  // adds items to the combo box
     
@@ -234,7 +237,9 @@ void TopPanelComponent::resized()
 
 void TopPanelComponent::changeDDSPModel()
 {
-    audioProcessor.loadModel (modelList->getSelectedId() - 1);      // modelList is a combo box, argument is the model index
+    
+    auto InstrumentChoiceParam = dynamic_cast<juce::AudioParameterChoice*> (audioProcessor.tree.getParameter ("InstrumentChoice"));
+    audioProcessor.loadModel (InstrumentChoiceParam->getIndex());      // modelList is a combo box, argument is the model index
     sendChangeMessage();        // TopPanelComponent is a change broadcaster
 }
 

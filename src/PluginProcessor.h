@@ -74,14 +74,16 @@ public:
     const ddsp::PredictControlsModel::Metadata getPredictControlsModelMetadata() const;
     juce::AudioProcessorValueTreeState& getValueTree();
     ddsp::ModelLibrary& getModelLibrary();
+    
+    // Param state.
+    juce::AudioProcessorValueTreeState tree;        // Tree is a ValueTree object used to manage the audio processor's entire                                                     state
+    // move to public variable to use in toppanelcomponent.cpp
 
 private:
     bool singleThreaded = false;
     bool modelLoaded = false;
     int currentModel = 0;
 
-    // Param state.
-    juce::AudioProcessorValueTreeState tree;        // Tree is a ValueTree object used to manage the audio processor's entire                                                     state
 
     ddsp::ModelLibrary modelLibrary;
     ddsp::InferencePipeline ddspPipeline;
