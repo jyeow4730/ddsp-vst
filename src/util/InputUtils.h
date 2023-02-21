@@ -24,6 +24,7 @@ namespace ddsp
 
 // Midi-related magic numbers.
 static constexpr float kSemitonesPerOctave = 12.0f;
+static constexpr float kCentsPerOctave = 1200.0f;
 static constexpr float kMidiNoteA4 = 69.0f;
 static constexpr float kFreqA4_Hz = 440.f;
 // Midi pitch bend messages instruct the synthesizer to shift by a small interval.
@@ -49,9 +50,9 @@ static inline float normalizedPitch (float pitch_Hz)
 static inline float normalizedLoudness (float dB) { return (dB / 80.0f) + 1.0f; }
 
 // Helper methods.
-static inline float offsetPitch (float pitch, int semitoneOffset)
+static inline float offsetPitch (float pitch, int centsOffset)
 {
-    return pitch * std::pow (2, semitoneOffset / kSemitonesPerOctave);
+    return pitch * std::pow (2, centsOffset / kCentsPerOctave);
 }
 
 static inline std::pair<int, int> pitchLoudnessToMidi (float pitch_Hz, float normalizedLoudness)
@@ -70,7 +71,7 @@ static inline std::pair<int, int> pitchLoudnessToMidi (float pitch_Hz, float nor
 // Calculations taken from https://dsp.stackexchange.com/questions/1645/converting-a-pitch-bend-midi-value-to-a-normal-pitch-value.
 static inline float getFreqFromNoteAndBend (int midiNote, int pitchBend)
 {
-    const float noteInOctave = (midiNote - kMidiNoteA4) / kSemitonesPerOctave;
+    const float noteInOctave = (midiNote - kMidiNoteA4) / kSemitonesPerOctave; // e.g. 1/12th represents C# in a C octave with equal temperament
     const float pitchBendInOctave = (pitchBend - kPitchBendBase) / kPitchRangePerSemitone / kSemitonesPerOctave;
     // Convert semitones into hz range. Each "octave" represents a doubling in frequency.
     const float f0_Hz = std::pow (2.0f, noteInOctave + pitchBendInOctave) * kFreqA4_Hz;

@@ -156,7 +156,8 @@ void InferencePipeline::render()
 
         // Shift the pitch before the UI and model.
         predictControlsInput.f0_hz =
-            offsetPitch (predictControlsInput.f0_hz, *tree.getRawParameterValue ("PitchShift"));
+            offsetPitch (predictControlsInput.f0_hz, *tree.getRawParameterValue ("PitchShift"));    
+            // Pitch shift the input pitch by the number of semitones specified by the 'PitchShift' parameter
         predictControlsInput.f0_norm = normalizedPitch (predictControlsInput.f0_hz);
 
         // Store and scale the normalized pitch and loudness.

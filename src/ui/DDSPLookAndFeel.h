@@ -25,7 +25,7 @@ enum DDSPColourPalette : uint32_t
     kDarkGrey = 0x25000000,
     kDarkerGrey = 0xFFACACAC,
     kLabelTextColour = 0xB3000000,
-    kMagentaHeader = 0xFF6200EF,
+    kMagentaHeader = 0xFF2986CC,
 };
 
 constexpr int kPadding = 8;
