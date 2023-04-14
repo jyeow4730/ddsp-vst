@@ -24,7 +24,7 @@ std::map<juce::String, std::vector<ParamInfo>> getSliderParamsInfo()
     static const std::map<juce::String, std::vector<ParamInfo>> ret = {
         // Model control params.
         { "Controls",
-          { { "PitchShift", "Pitch Shift", 0, 1200, 0, 1, true, 1, "cents" },              // ParamInfo struct defined in ParamInfo.h
+          { { "PitchShift", "Pitch Shift", 0, 65532, 0, 1, true, 1, "cents" },              // ParamInfo struct defined in ParamInfo.h
             { "HarmonicGain", "Harmonics", 0.0f, 1.0f, 1.0f, 0.01f, false, 2, "" },
             { "NoiseGain", "Noise", 0.0f, 1.0f, 1.0f, 0.01f, false, 2, "" },
             { "OutputGain", "Output Gain", -60.0f, 0.0f, 0.0f, 0.01f, false, 2, "dB" } } },
